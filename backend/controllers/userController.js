@@ -4,6 +4,9 @@ const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 
+/**
+ * create user
+ */
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -45,8 +48,28 @@ const registerUser = asyncHandler(async (req, res) => {
   res.json({ message: "Register User successful" });
 });
 
+/**
+ * Login user
+ */
 const loginUser = asyncHandler(async (req, res) => {
-  res.json({ message: "Login user successful" });
+  // validate email and password
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("All field mandatory!");
+  }
+
+  const user = await User.findOne({ email });
+
+  if (user && (await bcrypt.compare(password, user.password))) {
+    res.status(200).json({
+      user,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid data");
+  }
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
