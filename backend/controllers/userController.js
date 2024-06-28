@@ -39,6 +39,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (user) {
     res.status(201).json({
       user,
+      token: generateJwtToken(user._id),
     });
   } else {
     res.status(400);
@@ -65,6 +66,7 @@ const loginUser = asyncHandler(async (req, res) => {
   if (user && (await bcrypt.compare(password, user.password))) {
     res.status(200).json({
       user,
+      token: generateJwtToken(user._id),
     });
   } else {
     res.status(400);
@@ -77,5 +79,9 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     message: "Current user data",
   });
 });
+
+//   generate jwt token
+const generateJwtToken = (id) =>
+  jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "5d" });
 
 module.exports = { registerUser, loginUser, getCurrentUser };
