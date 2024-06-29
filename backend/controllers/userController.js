@@ -73,13 +73,15 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
-  res.json({
-    message: "Current user data",
+  console.log(req.user);
+  const user = await User.findById(req.user.id);
+  res.status(200).json({
+    user,
   });
 });
 
 //   generate jwt token
 const generateJwtToken = (id) =>
-  jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "5d" });
+  jwt.sign({ id: id }, process.env.JWT_SECRET, { expiresIn: "5d" });
 
 module.exports = { registerUser, loginUser, getCurrentUser };
