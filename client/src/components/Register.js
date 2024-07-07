@@ -44,9 +44,10 @@ const Register = () => {
           <div className="form-group">
             <input
               placeholder="Enter email"
-              type="text"
+              type="email"
               className="form-control"
               id="email"
+              name="email"
               value={email}
               onChange={onChange}
             />
