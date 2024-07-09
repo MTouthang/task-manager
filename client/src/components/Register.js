@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { register, reset } from "../features/auth/authSlice";
+import Spinner from "./Spinner";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -12,6 +13,18 @@ const Register = () => {
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess || user) {
+      navigate("/");
+    }
+    dispatch(reset);
+  }, [user, isLoading, isError, isSuccess, message, navigate, dispatch]);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -36,7 +49,9 @@ const Register = () => {
       dispatch(register(userData));
     }
   };
-  return (
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <>
       <section className="heading">
         <h1>
