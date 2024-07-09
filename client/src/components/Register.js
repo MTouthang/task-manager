@@ -1,7 +1,17 @@
 import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { register, reset } from "../features/auth/authSlice";
 
 const Register = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,6 +29,12 @@ const Register = () => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    if (password !== password2) {
+      toast.error("Password are different");
+    } else {
+      const userData = { name, email, password };
+      dispatch(register(userData));
+    }
   };
   return (
     <>
