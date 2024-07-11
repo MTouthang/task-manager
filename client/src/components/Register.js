@@ -49,6 +49,7 @@ const Register = () => {
       dispatch(register(userData));
     }
   };
+
   return isLoading ? (
     <Spinner />
   ) : (
