@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { createTask } from "../features/tasks/taskSlice";
 
 const TaskForm = () => {
   const [text, setText] = useState("");
@@ -7,9 +8,10 @@ const TaskForm = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch();
+    dispatch(createTask({ text }));
     setText("");
   };
+
   return (
     <section className="form">
       <form onSubmit={onSubmit}>
@@ -19,7 +21,7 @@ const TaskForm = () => {
             type="text"
             id="text"
             value={text}
-            onChange={(e) => e.target.value}
+            onChange={(e) => setText(e.target.value)}
           />
         </div>
         <div className="form-group">

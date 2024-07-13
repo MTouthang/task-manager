@@ -6,9 +6,7 @@ import TaskForm from "./TaskForm";
 const Dashboard = () => {
   const navigate = useNavigate();
 
-  const { user } = useSelector((state) => state.auth.user);
-  console.log(user.name);
-  console.log(user);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (!user) {
