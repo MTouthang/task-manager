@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { deleteTask, getTasks } from "../features/tasks/taskSlice";
+import { deleteTask } from "../features/tasks/taskSlice";
 
 const TaskItem = ({ task }) => {
   const dispatch = useDispatch();

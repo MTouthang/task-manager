@@ -88,7 +88,7 @@ const deleteTask = asyncHandler(async (req, res) => {
     _id: req.params.id,
   });
   res.status(200).json({
-    message: `Task ${req.params.id} deleted`,
+    id: req.params.id,
   });
 });
 
